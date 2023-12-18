@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios, { formToJSON } from 'axios';
 
 
 function Formulario() {
@@ -7,9 +8,25 @@ function Formulario() {
     const [senha, setSenha] = useState('')
     const [profissao, setProfissao] = useState('');
     const [aceitaTermos, setAceitaTermos] = useState(false);
+    
     const handleCadastroFormulario = (event) => {
         event.preventDefault();
-        console.log('enviou', {nome: nome, email: email, senha: senha, profissao: profissao, aceitaTermos: aceitaTermos})
+        try {
+          const response =  axios.post('http://localhost:3000/usuarios', {
+            nome, 
+            email,
+            senha,
+            profissao,
+            termos: aceitaTermos,
+          });
+          window.location.reload(false)
+          console.log('Resposta da API:', formToJSON(response.data));
+    
+        } catch (error) {
+          console.error('Erro ao fazer solicitação:', error);
+  
+
+        }
     }
 
 
